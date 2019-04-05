@@ -686,7 +686,7 @@ func (sc *Client) ExpireEvent(corpName, siteName, id string) (Event, error) {
 }
 
 func (sc *Client) UploadRule(corpName, siteName, jsonRule string) (Event, error) {
-	resp, err := sc.doRequest("POST", fmt.Sprintf("v0/corps/%s/sites/%s/rules", corpName, siteName), jsonRule)
+	resp, err := sc.doRequest("POST", fmt.Sprintf("/v0/corps/%s/sites/%s/rules", corpName, siteName), jsonRule)
 	if err != nil {
 		return Event{}, err
 	}

@@ -669,19 +669,31 @@ func (sc *Client) ExpireEvent(corpName, siteName, id string) (Event, error) {
 	return e, nil
 }
 
-func (sc *Client) UploadRule(corpName, siteName, jsonRule string) (Event, error) {
+func (sc *Client) UploadRule(corpName, siteName, jsonRule string) ([]byte, error) {
 	resp, err := sc.doRequest("POST", fmt.Sprintf("/v0/corps/%s/sites/%s/rules", corpName, siteName), jsonRule)
 	if err != nil {
-		return Event{}, err
+		return nil, err
 	}
 
-	var e Event
-	err = json.Unmarshal(resp, &e)
+	return resp, nil
+}
+
+func (sc *Client) ListRules(corpName, siteName string) ([]byte, error) {
+	resp, err := sc.doRequest("GET", fmt.Sprintf("/v0/corps/%s/sites/%s/rules", corpName, siteName), "")
 	if err != nil {
-		return Event{}, err
+		return nil, err
 	}
 
-	return e, nil
+	return resp, nil
+}
+
+func (sc *Client) DeleteRule(corpName, siteName, ruleID string) ([]byte, error) {
+	resp, err := sc.doRequest("DELETE", fmt.Sprintf("/v0/corps/%s/sites/%s/rules/%s", corpName, siteName, ruleID), "")
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 // RequestTag is a tag in a request

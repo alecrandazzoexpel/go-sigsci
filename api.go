@@ -683,12 +683,20 @@ func (sc *Client) ListRules(corpName, siteName string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }
 
 func (sc *Client) DeleteRule(corpName, siteName, ruleID string) ([]byte, error) {
 	resp, err := sc.doRequest("DELETE", fmt.Sprintf("/v0/corps/%s/sites/%s/rules/%s", corpName, siteName, ruleID), "")
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func (sc *Client) UpdateRule(corpName, siteName, ruleID, jsonRule string) ([]byte, error) {
+	resp, err := sc.doRequest("PATCH", fmt.Sprintf("/v0/corps/%s/sites/%s/rules/%s", corpName, siteName, ruleID), jsonRule)
 	if err != nil {
 		return nil, err
 	}
